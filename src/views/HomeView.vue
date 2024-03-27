@@ -3,12 +3,17 @@ import { ref, onMounted } from 'vue'
 import HeadingComponent from '@/components/Heading/HeadingComponent.vue'
 import ProductComponent from '@/components/Products/ProductComponent.vue'
 import { getAllProducts } from '@/services/product'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation } from 'swiper/modules'
+
 // import { productListAtom } from '@/recoil/atom/product'
 
 export default {
   components: {
     HeadingComponent,
-    ProductComponent
+    ProductComponent,
+    Swiper,
+    SwiperSlide
   },
   setup() {
     const products = ref([])
@@ -63,7 +68,8 @@ export default {
     return {
       products,
       heading,
-      settings
+      settings,
+      modules: [Navigation]
     }
   }
 }
@@ -73,6 +79,19 @@ export default {
   <div class="w-full py-16">
     <div class="max-w-container px-4">
       <HeadingComponent :heading="heading" />
+
+      <swiper
+        :slides-per-view="3"
+        :space-between="50"
+        @swiper="onSwiper"
+        @slideChange="onSlideChange"
+        :navigation="true"
+        :modules="modules"
+      >
+        <swiper-slide v-for="product in products" :key="product.id" class="px-2">
+          <ProductComponent :product="product" />
+        </swiper-slide>
+      </swiper>
       <!-- <Slider :options="settings">
         <div v-for="product in products" :key="product.id" class="px-2">
           <Product :product="product" />
