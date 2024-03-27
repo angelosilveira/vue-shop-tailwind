@@ -1,39 +1,17 @@
-# vue-shop-tailwind
+## Iniciando o projeto
 
-This template should help get you started developing with Vue 3 in Vite.
+Primeiro certifique-se que o vite está instalado em sua maquina e senão estiver só seguir o tutorial do link abaixo:
 
-## Recommended IDE Setup
+https://vitejs.dev/guide/
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Em seguida execute os comandos abaixo
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```js
 yarn
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
+```js
 yarn dev
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-yarn build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-yarn lint
-```
+Em seguida copie o conteúdo dentro do arquivo '.env.example' e crie um arquivo .env na raiz do seu projeto e depois pare o servidor e rode novamente.
