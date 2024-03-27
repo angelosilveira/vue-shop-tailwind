@@ -1,7 +1,6 @@
 <script>
 import { Icon } from '@iconify/vue'
-// import { useSetRecoilState } from 'vue-recoil';
-// import { cartAtom, increaseQuantity, decreaseQuantity, deleteItem } from '@recoil/atom/cart';
+import { useCartStore } from '@/stores/cart'
 
 export default {
   components: {
@@ -11,21 +10,18 @@ export default {
     product: Object
   },
   setup(props) {
-    const setCart = useSetRecoilState(cartAtom)
+    const cartStore = useCartStore()
 
     const handleIncreaseQuantity = (productId) => {
-      // setCart(increaseQuantity(productId));
-      return
+      cartStore.increaseQuantity(productId)
     }
 
     const handleDecreaseQuantity = (productId) => {
-      // setCart(decreaseQuantity(productId));
-      return
+      cartStore.decreaseQuantity(productId)
     }
 
     const handleDeleteItem = (productId) => {
-      // setCart(deleteItem(productId));
-      return
+      cartStore.deleteItem(productId)
     }
 
     return {

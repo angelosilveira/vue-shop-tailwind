@@ -1,7 +1,6 @@
 <script>
-import { ref, computed, watchEffect } from 'vue'
-// import { useRecoilState } from 'recoil'
-// import { cartAtom, resetCart } from '@recoil/atom/cart'
+import { ref, watchEffect, computed } from 'vue'
+import { useCartStore } from '@/stores/cart'
 import ItemCardComponent from '@/components/ItemCard/ItemCardComponent.vue'
 
 export default {
@@ -9,25 +8,24 @@ export default {
     ItemCardComponent
   },
   setup() {
-    // const [products, setCart] = useRecoilState(cartAtom)
-    const products = ref([])
+    const cartStore = useCartStore()
+    const cartProducts = computed(() => cartStore.cart)
     const totalAmt = ref(0)
 
     watchEffect(() => {
-      // const price = products.value.reduce((acc, item) => {
-      //   return acc + item.price * (item.quantity || 1)
-      // }, 0)
-      // const formattedPrice = parseFloat(price.toFixed(2))
-      totalAmt.value = 0
+      const price = cartProducts.value.reduce((acc, item) => {
+        return acc + item.price * (item.quantity || 1)
+      }, 0)
+      const formattedPrice = parseFloat(price.toFixed(2))
+      totalAmt.value = formattedPrice
     })
 
     const clearCart = () => {
-      // setCart(resetCart())
-      return
+      cartStore.resetCart()
     }
 
     return {
-      products,
+      cartProducts,
       totalAmt,
       clearCart
     }
@@ -37,7 +35,8 @@ export default {
 
 <template>
   <div class="max-w-container mx-auto py-10 px-4">
-    <div v-if="products.length > 0" class="pb-20">
+    {{}}
+    <div v-if="cartProducts.length > 0" class="pb-20">
       <div
         class="w-full h-20 bg-[#F5F7F7] text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold"
       >
@@ -47,7 +46,7 @@ export default {
         <h2>Sub Total</h2>
       </div>
       <div class="mt-5">
-        <div v-for="product in products" :key="product.id">
+        <div v-for="product in cartProducts" :key="product.id">
           <ItemCardComponent :product="product" />
         </div>
       </div>

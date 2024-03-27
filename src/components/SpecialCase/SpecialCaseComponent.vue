@@ -1,17 +1,18 @@
 <script>
-import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
-// import { cartAtom } from '@recoil/atom/cart'
-// import { useRecoilValue } from 'recoil'
-// import { favoritesAtom } from '@recoil/atom/product'
+import { useProductStore } from '@/stores/product'
+import { useCartStore } from '@/stores/cart'
 
 export default {
   setup() {
-    const cart = []
-    const favoritesTotal = []
+    const cartStore = useCartStore()
+    const cartTotal = cartStore.cart
+
+    const productStore = useProductStore()
+    const favoritesTotal = productStore.favorites
 
     return {
-      cart,
+      cartTotal,
       favoritesTotal
     }
   },
@@ -65,10 +66,10 @@ export default {
         </div>
         <p class="text-xs font-semibold font-titleFont">Carrinho</p>
         <p
-          v-if="cart.length > 0"
+          v-if="cartTotal.length > 0"
           class="absolute top-1 right-2 bg-primeColor text-white text-xs w-4 h-4 rounded-full flex items-center justify-center font-semibold"
         >
-          {{ cart.length }}
+          {{ cartTotal.length }}
         </p>
       </div>
     </router-link>

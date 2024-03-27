@@ -1,9 +1,7 @@
 <script>
-// import { useRecoilValue } from 'vue-recoil';
 import HeadingComponent from '@/components/Heading/HeadingComponent.vue'
 import ProductComponent from '@/components/Products/ProductComponent.vue'
-
-// import { favoritesAtom } from '../recoil/atom/product';
+import { useProductStore } from '@/stores/product'
 
 export default {
   components: {
@@ -11,7 +9,9 @@ export default {
     ProductComponent
   },
   setup() {
-    const productsFavorites = []
+    const productStore = useProductStore()
+    const productsFavorites = productStore.favorites
+    console.log('🚀 ~ setup ~ productsFavorites:', productsFavorites)
 
     return {
       productsFavorites
@@ -29,13 +29,7 @@ export default {
         class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 gap-y-20"
       >
         <div v-for="product in productsFavorites" :key="product.id" class="px-2">
-          <ProductComponent
-            :id="product.id"
-            :title="product.title"
-            :image="product.image"
-            :price="product.price"
-            :category="product.category"
-          />
+          <ProductComponent :product="product" />
         </div>
       </div>
       <div v-else>

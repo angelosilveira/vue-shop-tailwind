@@ -87,16 +87,28 @@ export default {
         @slideChange="onSlideChange"
         :navigation="true"
         :modules="modules"
+        :breakpoints="{
+          '320': {
+            slidesPerView: 1
+          },
+          '640': {
+            slidesPerView: 2,
+            spaceBetween: 20
+          },
+          '768': {
+            slidesPerView: 2,
+            spaceBetween: 40
+          },
+          '1024': {
+            slidesPerView: 4,
+            spaceBetween: 50
+          }
+        }"
       >
         <swiper-slide v-for="product in products" :key="product.id" class="px-2">
           <ProductComponent :product="product" />
         </swiper-slide>
       </swiper>
-      <!-- <Slider :options="settings">
-        <div v-for="product in products" :key="product.id" class="px-2">
-          <Product :product="product" />
-        </div>
-      </Slider> -->
     </div>
   </div>
 </template>

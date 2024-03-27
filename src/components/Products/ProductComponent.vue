@@ -1,11 +1,10 @@
 <script>
-import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { toast } from 'vue3-toastify'
-// import { useAddToCart } from '@recoil/atom/cart'
-// import { favoritesAtom, useToggleFavorite } from '@recoil/atom/product'
-// import { useRecoilValue } from 'recoil'
+import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
+import { toast } from 'vue3-toastify'
+import { useRouter } from 'vue-router'
+import { useProductStore } from '@/stores/product'
+import { useCartStore } from '@/stores/cart'
 
 export default {
   props: {
@@ -21,49 +20,45 @@ export default {
     Icon
   },
   setup(props) {
-    // const route = useRoute()
-    // const toast = useToast()
-    // const addToCart = useAddToCart()
-    // const toggleFavorite = useToggleFavorite()
-    // const favoritesTotal = useRecoilValue(favoritesAtom)
+    const route = useRouter()
 
-    // const handleAddToCart = () => {
-    //   addToCart({
-    //     id: props.id,
-    //     title: props.title,
-    //     image: props.image,
-    //     price: props.price,
-    //     category: props.category,
-    //     quantity: 1
-    //   })
-    //   toast.success('Produto adicionado ao carrinho')
-    // }
+    const productStore = useProductStore()
+    const cartStore = useCartStore()
 
-    // const handleToggleFavorite = () => {
-    //   toggleFavorite({
-    //     id: props.id,
-    //     title: props.title,
-    //     image: props.image,
-    //     price: props.price,
-    //     category: props.category
-    //   })
-    //   toast.success('Produto favoritado')
-    // }
+    const favorites = productStore.favorites
 
-    // const handleProductDetails = () => {
-    //   route.push(`/product/${props.id}`)
-    // }
+    const handleAddToCart = () => {
+      cartStore.addToCart({
+        ...props.product,
+        quantity: 1
+      })
+      toast('Produto adicionado ao carrinho', {
+        autoClose: 2000
+      })
+    }
+
+    const handleToggleFavorite = () => {
+      productStore.toggleFavorite(props.product)
+      toast('Produto adicionado aos favoritos', {
+        autoClose: 2000
+      })
+    }
+
+    const handleProductDetails = () => {
+      route.push(`/product/${props.product.id}`)
+    }
 
     const isFavorite = computed(() => {
-      return true
+      return favorites.some((fav) => fav.id === props.product.id)
     })
 
     return {
-      // handleAddToCart,
-      // handleToggleFavorite,
-      // handleProductDetails,
+      handleAddToCart,
+      handleProductDetails,
+      handleToggleFavorite,
       props,
-      isFavorite
+      isFavorite,
+      favorites
     }
   }
 }
@@ -71,9 +66,9 @@ export default {
 
 <template>
   <div class="w-full relative group">
-    <div class="max-w-80 max-h-80 relative overflow-y-hidden">
+    <div class="w-full max-h-80 relative overflow-y-hidden">
       <div @click="handleProductDetails">
-        <img class="w-full h-full max-h-[165px] object-contain" :src="product.image" />
+        <img class="w-full h-full max-h-[165px] object-contain" :src="props.product.image" />
       </div>
 
       <div class="w-full h-32 absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
@@ -109,7 +104,7 @@ export default {
         </ul>
       </div>
     </div>
-    <div class="max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
+    <div class="w-full py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
       <div class="flex items-center justify-between font-titleFont">
         <h2 class="text-base text-primeColor font-bold min-h-[100px]">{{ product.title }}</h2>
       </div>

@@ -1,22 +1,22 @@
 <script>
-import { ref } from 'vue'
-// import { useAddToCart } from '@recoil/atom/cart';
-// import { toast } from 'react-toastify';
+import { toast } from 'vue3-toastify'
+import { useCartStore } from '@/stores/cart'
 
 export default {
   props: {
     product: Object
   },
   setup(props) {
-    // const addToCart = useAddToCart()
+    const cartStore = useCartStore()
 
     const handleAddToCart = () => {
-      // addToCart({
-      //   ...props.product,
-      //   quantity: 1
-      // });
-      // toast.success('Produto adicionado ao carrinho');
-      return
+      cartStore.addToCart({
+        ...props.product,
+        quantity: 1
+      })
+      toast('Produto adicionado ao carrinho', {
+        autoClose: 2000
+      })
     }
 
     return {
